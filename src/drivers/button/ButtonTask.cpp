@@ -4,13 +4,18 @@
 #include "config/BoardConfig.hpp"
 #include "config/BuildConfig.hpp"
 
+#include "utils/ScopedTimer/ScopedTimer.hpp"
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "esp_log.h"
 
 using launcher::config::Pins;
 
 namespace launcher::button
 {
+    static constexpr auto TAG = "ButtonTask";
+
     static void buttonTask(void *arg)
     {
         Button btnUp(ButtonId::Up, Pins::BUTTON_UP);
@@ -21,15 +26,15 @@ namespace launcher::button
         {
             uint32_t nowMs = xTaskGetTickCount() * portTICK_PERIOD_MS;
 
-            ButtonEvent upEvent = btnUp.update(nowMs);
-            ButtonEvent selectEvent = btnSelect.update(nowMs);
-            ButtonEvent downEvent = btnDown.update(nowMs);
-
-    #ifdef ENABLE_BUTTON_LOG
-            printButtonEvent(upEvent);
-            printButtonEvent(selectEvent);
-            printButtonEvent(downEvent);
-    #endif
+#ifdef ENABLE_BUTTON_LOG
+            printButtonEvent(btnUp.update(nowMs));
+            printButtonEvent(btnSelect.update(nowMs));
+            printButtonEvent(btnDown.update(nowMs));
+#else
+            btnUp.update(nowMs);
+            btnSelect.update(nowMs);
+            btnDown.update(nowMs);
+#endif
 
             // TODO:
             // eventQueue.push(upEvent);
@@ -42,7 +47,15 @@ namespace launcher::button
 
     void initButtons()
     {
-        xTaskCreate(buttonTask, "ButtonTask", 2048, nullptr, 5, nullptr);
+#ifdef ENABLE_MEASURE_MODULE_INIT_TIME
+        launcher::utils::ScopedTimer InitButtonsTimer("initButtons");
+#endif
+        BaseType_t res = xTaskCreate(buttonTask, "ButtonTask", 2048, nullptr, 5, nullptr);
+        if(res != pdTRUE)
+        {
+            ESP_LOGE(TAG, "Fail to create buttonTask");
+            abort();
+        }
     }
 
 } // namespace launcher::button

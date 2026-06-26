@@ -1,7 +1,7 @@
 #include "esp_log.h"
 #include "Button.hpp"
 
-static constexpr auto TAG = "Button.cpp";
+static constexpr auto TAG = "Button";
 
 namespace launcher::button
 {
@@ -18,7 +18,7 @@ namespace launcher::button
 
         config.pin_bit_mask = (1ULL << pin_);
         config.mode = GPIO_MODE_INPUT;
-        config.pull_up_en = GPIO_PULLUP_ENABLE;
+        config.pull_up_en = GPIO_PULLUP_DISABLE;
         config.pull_down_en = GPIO_PULLDOWN_DISABLE;
         config.intr_type = GPIO_INTR_DISABLE;
 

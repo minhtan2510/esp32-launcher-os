@@ -2,15 +2,17 @@
 #include "freertos/task.h"
 
 #include "drivers/button/ButtonTask.hpp"
+#include "utils/ScopedTimer/ScopedTimer.hpp"
+#include "core/boot/BootManager.hpp"
 
 using namespace launcher::button;
 
 extern "C" void app_main()
 {
-    launcher::button::initButtons();
-    // launcher::display::initDisplay();
-    // launcher::event::initEventQueue();
-    // launcher::launcher::initLauncher();
+    //* Initialization logic block
+    {
+        launcher::boot::BootManager::init();
+    }
 
     while (true)
     {
