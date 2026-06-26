@@ -56,85 +56,6 @@ Current target hardware:
 
 ---
 
-## Architecture
-
-```text
-+-----------------------+
-|       LauncherOS         |
-+-----------------------+
-
-        Core
-          |
-          v
-
-+-----------------------+
-|    Event System       |
-+-----------------------+
-
-          |
-          v
-
-+-----------------------+
-|      Launcher         |
-+-----------------------+
-
-          |
-          v
-
-+-----------------------+
-|        Apps           |
-+-----------------------+
-
-          |
-          v
-
-+-----------------------+
-|      Services         |
-+-----------------------+
-
-          |
-          v
-
-+-----------------------+
-|       Drivers         |
-+-----------------------+
-```
-
----
-
-## Project Structure
-
-```text
-orbit-os/
-│
-├── docs/
-│
-├── hardware/
-│
-├── components/
-│   │
-│   ├── core/
-│   │
-│   ├── drivers/
-│   │
-│   ├── ui/
-│   │
-│   ├── services/
-│   │
-│   └── apps/
-│
-├── main/
-│   └── main.cpp
-│
-├── test/
-│
-├── platformio.ini
-│
-├── README.md
-│
-└── ROADMAP.md
-```
-
 ---
 
 ## Core Components
@@ -336,18 +257,6 @@ feature/button-manager
 feature/event-bus
 feature/launcher
 feature/weather-app
-```
-
-Commit Format:
-
-```text
-feat(button): add long press detection
-
-feat(core): implement event queue
-
-feat(launcher): add application registry
-
-fix(display): correct icon rendering
 ```
 
 ---
