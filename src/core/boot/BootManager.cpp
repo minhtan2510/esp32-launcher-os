@@ -1,8 +1,12 @@
 #include "BootManager.hpp"
 
-#include "drivers/button/ButtonTask.hpp"
 #include "config/BuildConfig.hpp"
+
+#include "drivers/button/ButtonTask.hpp"
+#include "drivers/display/Display.hpp"
+
 #include "utils/ScopedTimer/ScopedTimer.hpp"
+
 #include "esp_log.h"
 
 namespace launcher::boot
@@ -18,9 +22,9 @@ namespace launcher::boot
 #endif
 
         launcher::button::initButtons();
+        launcher::display::initDisplay();
 
         //TODO:
-        // launcher::display::initDisplay();
         // launcher::event::initEventQueue();
         // launcher::launcher::initLauncher();
 
