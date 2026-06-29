@@ -1,0 +1,9 @@
+python tools/png_to_bitmap.py \
+    resources/icons \
+    src/assets/icons \
+    --size 16
+
+python tools/png_to_bitmap.py \
+    resources/logos \
+    src/assets/logos \
+    --size 16
