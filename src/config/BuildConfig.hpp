@@ -6,6 +6,14 @@
 #define DISPLAY_TARGET_ST7735
 // #define DISPLAY_TARGET_ST7789
 
+#ifdef DISPLAY_TARGET_ST7735
+    #define LCD_H_RES          (128)    // LCD horizontal resolution
+    #define LCD_V_RES          (160)    // LCD vertical resolution
+#else
+    #define LCD_H_RES          (128)    // LCD horizontal resolution
+    #define LCD_V_RES          (128)    // LCD vertical resolution
+#endif
+
 //*==============================
 //* Logging
 //*==============================
