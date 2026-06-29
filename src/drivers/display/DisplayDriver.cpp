@@ -25,6 +25,11 @@ static constexpr char TAG[] = "DisplayDriver";
 
 namespace launcher::display
 {
+    static inline constexpr uint16_t toDisplayColor(uint16_t color)
+    {
+        return static_cast<uint16_t>((color << 8) | (color >> 8));
+    }
+    
     void DisplayDriver::init()
     {
 #ifdef ENABLE_MEASURE_MODULE_INIT_TIME
@@ -79,7 +84,7 @@ namespace launcher::display
 
         setRotation(DisplayRotation::Deg90);
         
-        clear(static_cast<uint16_t>(launcher::graphics::Color::Black));
+        clear(static_cast<uint16_t>(launcher::graphics::Color::Blue));
 
         //* Set logo
         {
@@ -138,7 +143,7 @@ namespace launcher::display
         if (panel_ == nullptr || lineBuffer_ == nullptr)
             return;
 
-        std::fill_n(lineBuffer_, width_, color);
+        std::fill_n(lineBuffer_, width_, toDisplayColor(color));
 
         for (uint16_t y = 0; y < height_; ++y)
             esp_lcd_panel_draw_bitmap(panel_, 0, y, width_, y + 1, lineBuffer_);
@@ -149,7 +154,7 @@ namespace launcher::display
         if (panel_ == nullptr || x >= width_ || y >= height_)
             return;
 
-        lineBuffer_[0] = color;
+        lineBuffer_[0] = toDisplayColor(color);
         esp_lcd_panel_draw_bitmap(panel_, x, y, x + 1, y + 1, lineBuffer_);
     }
 
@@ -168,7 +173,8 @@ namespace launcher::display
 
         for (uint16_t row = 0; row < clippedHeight; ++row)
         {
-            std::copy_n(pixels + row * width, clippedWidth, lineBuffer_);
+            const uint16_t *sourceRow = pixels + row * width;
+            std::transform(sourceRow, sourceRow + clippedWidth, lineBuffer_, toDisplayColor);
             esp_lcd_panel_draw_bitmap(panel_, x, y + row, x + clippedWidth, y + row + 1, lineBuffer_);
         }
     }

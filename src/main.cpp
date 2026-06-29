@@ -1,11 +1,9 @@
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-
-#include "drivers/button/ButtonTask.hpp"
-#include "utils/ScopedTimer/ScopedTimer.hpp"
 #include "core/boot/BootManager.hpp"
 
-using namespace launcher::button;
+#include "utils/ScopedTimer/ScopedTimer.hpp"
+
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
 extern "C" void app_main()
 {
